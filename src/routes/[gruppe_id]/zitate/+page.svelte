@@ -39,7 +39,7 @@
     {#each data.zitate as zitat}
       <tr>
         <td>
-          <a href={"./zitat/" + zitat._id}>
+          <a href={"./zitate/" + zitat._id}>
             {zitat._id}
           </a>
         </td>

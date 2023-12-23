@@ -2,35 +2,22 @@
   import axios from 'axios';
   export let data;
   
-  let artist = data.artist;
+  let zitat = data.zitat;
 
-  function updateArtist() {
-    axios
-      .put("/api/artists/" + artist._id, artist)
-      .then((response) => {
-        alert("Artist updated");
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error);
-      });
-  }
 </script>
 
-<h1>Artist (ID: {artist._id})</h1>
-<a href="/artists">Back</a>
-<!-- <div class="mt-3">
-  <p>Name: {artist.name}</p>
-  <p>Origin: {artist.origin}</p>
+<div class="container mt-4">
+  <div class="card">
+    {#if zitat.bild}
+      <img src={zitat.bild} class="card-img-top" alt="Zitat Bild" style="object-fit: cover; height: 200px;">
+    {/if}
+    <div class="card-body">
+      <h5 class="card-title">Zitat: {zitat.zitat}</h5>
+      <p class="card-text"><strong>Beschreibung:</strong> {zitat.beschreibung}</p>
+      <p class="card-text"><strong>Person:</strong> {zitat.person}</p>
+      <p class="card-text"><strong>Datum:</strong> {new Date(zitat.datum).toLocaleString()}</p>
+
+      <a href="/edit/{zitat._id}" class="btn btn-primary">Edit</a>
+    </div>
+  </div>
 </div>
- -->
-<div class="mt-3 mb-3">
-  <label class="form-label" for="name">Name</label>
-  <input class="form-control" id="name" bind:value={artist.name} />
-</div>
-<div class="mt-3 mb-3">
-  <label class="form-label" for="origin">Origin</label>
-  <input class="form-control" id="origin" bind:value={artist.origin} />
-</div>
-<button class="btn btn-primary" on:click={updateArtist}>Update</button>
