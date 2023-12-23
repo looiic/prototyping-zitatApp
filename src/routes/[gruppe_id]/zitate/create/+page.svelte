@@ -7,7 +7,7 @@
   let zitat = {
     zitat: "",
     person: "",
-    gruppe: "",
+    gruppe: data.gruppe._id,
   };
 
   function addZitat() {
@@ -34,13 +34,9 @@
   </div>
   <div class="mb-3">
     <label for="" class="form-label">Person</label>
-    <input class="form-control" type="text" bind:value={zitat.person} />
-  </div>
-  <div class="mb-3">
-    <label for="" class="form-label">Gruppe</label>
-    <select class="form-select" bind:value={zitat.gruppe}>
-      {#each data.gruppen as gruppe}
-        <option value={gruppe._id}>{gruppe.titel}</option>
+    <select class="form-select" bind:value={zitat.person}>
+      {#each data.gruppe.personen as person}
+        <option value={person}>{person}</option>
       {/each}
     </select>
   </div>

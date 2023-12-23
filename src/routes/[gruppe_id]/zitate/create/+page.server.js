@@ -1,8 +1,8 @@
 import db from "$lib/db.js"
 
-export async function load() {
+export async function load({ params }) {
 
     return {
-        gruppen: db.getGruppen()
+        gruppe: db.getGruppe(params.gruppe_id)
     }
 }

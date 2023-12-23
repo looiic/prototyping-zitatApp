@@ -20,7 +20,7 @@
   }
 
   function navigateToCreate() {
-    goto('/gruppen/create', { replaceState: false });
+    goto('/create', { replaceState: false });
   }
 
 </script>

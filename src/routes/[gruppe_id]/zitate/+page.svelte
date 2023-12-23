@@ -32,7 +32,6 @@
       <th>ID</th>
       <th>Zitat</th>
       <th>Person</th>
-      <th>Gruppe</th>
       <th></th>
     </tr>
   </thead>
@@ -49,9 +48,6 @@
         </td>
         <td>
           {zitat.person}
-        </td>
-        <td>
-          {zitat.gruppe}
         </td>
         <td>
           <button class="btn btn-danger"
