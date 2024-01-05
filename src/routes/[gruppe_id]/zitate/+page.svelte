@@ -22,41 +22,33 @@
   function navigateToCreate() {
     goto('./zitate/create', { replaceState: false });
   }
+
+  function navigateToZitat(zitatId) {
+    goto('./zitate/' + zitatId, {replaceState: false});
+  }
 </script>
 
-<h1>List of all Zitate</h1>
-<button class="btn btn-primary" on:click={navigateToCreate}>Zitat erfassen</button>
-<table class="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Zitat</th>
-      <th>Person</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each data.zitate as zitat}
-      <tr>
-        <td>
-          <a href={"./zitate/" + zitat._id}>
-            {zitat._id}
-          </a>
-        </td>
-        <td>
-          "{zitat.zitat}"
-        </td>
-        <td>
-          {zitat.person}
-        </td>
-        <td>
-          <button class="btn btn-danger"
-            on:click={() => {
-              deleteZitat(zitat._id);
-            }}>X</button
-          >
-        </td>
-      </tr>
-    {/each}
-  </tbody>
-</table>
+<a href="/"><h3>Zurück</h3></a>
+
+<div class="m-3">
+    <h1 class="display-4 mb-3">Zitate</h1>
+    <button class="btn btn-success w-100" on:click={navigateToCreate}>Neues Zitat erfassen</button>
+</div>
+
+<div class="mt-5">
+  {#each data.zitate as zitat}
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="card m-3"  on:click={()=>{navigateToZitat(zitat._id);}}>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div class="text-center">
+        <h3 class="display-6">"{zitat.zitat}"</h3>
+      </div>
+      <div class="text-end">
+        <i>- {zitat.person}</i>
+      </div>
+    </div>
+</div>
+  {/each}
+</div>
+

@@ -236,6 +236,56 @@ async function deleteGruppe(id) {
     return null;
 }
 
+// get all personen
+async function getPersonen() {
+    let personen = [];
+    try {
+        const collection = db.collection('personen');
+
+        const query = {};
+
+        // Get all objects that match the query
+        personen = await collection.find(query).toArray();
+        personen.forEach(person => {
+            person._id = person._id.toString(); // convert ObjectId to String
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+    return personen;
+}
+
+// delete person by id
+async function deletePerson(id) {
+    
+        try {
+            const collection = db.collection('personen');
+            const query = { _id: new ObjectId(id) }; // filter by id
+            const result = await collection.deleteOne(query);
+    
+            if (result.deletedCount === 0) {
+                console.log("No object with id " + id)
+            }
+            else {
+                console.log("Object with id " + id + " has been successfully deleted.")
+                return id;
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+        return null
+}
+
+async function createPerson(person) {
+    try {
+        const collection = db.collection('personen');
+        const result = await collection.insertOne(person);
+        return result.insertedId.toString(); // convert ObjectId to String
+    }  catch (error) {
+        console.log(error.message);
+    }
+    return null;
+}
 // export all functions so that they can be used in other files
 export default {
     getZitate,
@@ -248,5 +298,8 @@ export default {
     getGruppe,
     createGruppe,
     updateGruppe,
-    deleteGruppe
+    deleteGruppe,
+    getPersonen,
+    deletePerson,
+    createPerson
 }

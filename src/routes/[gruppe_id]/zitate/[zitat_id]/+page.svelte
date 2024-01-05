@@ -6,6 +6,8 @@
 
 </script>
 
+<a href="./"><h3>Zurück</h3></a>
+
 <div class="container mt-4">
   <div class="card">
     {#if zitat.bild}

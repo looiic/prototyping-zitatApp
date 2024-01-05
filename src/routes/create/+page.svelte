@@ -32,26 +32,30 @@
         });
     }
   </script>
+
+<a href="/"><h3>Zurück</h3></a>
   
-  <h1>Gruppe hinzufügen</h1>
+  <div class="m-3">
+    <h1 class="display-4 mb-3">Gruppe erstellen</h1>
+  </div>
   
-  <form>
+  <form class="m-3">
     <div class="mb-3">
-      <label for="" class="form-label">Gruppenname</label>
-      <input class="form-control" type="text" bind:value={gruppe.titel} />
+      <label for="gruppenname" class="form-label">Gruppenname</label>
+      <input id="gruppenname" class="form-control" type="text" bind:value={gruppe.titel} />
     </div>
     <div class="mb-3">
-      <label class="form-label">Personen</label>
-      <button type="button" class="btn btn-primary" on:click={addPerson}>Add Person</button>
+      <p class="form-label">Personen</p>
       {#each gruppe.personen as person, index}
         <div class="input-group mb-2">
           <input type="text" class="form-control" placeholder="Person Name" bind:value={person}>
           <button type="button" class="btn btn-danger" on:click={() => removePerson(index)}>Remove</button>
         </div>
       {/each}
+      <button type="button" class="btn btn-primary" on:click={addPerson}>Weitere Person</button>
     </div>
-    <button on:click={addGruppe} type="button" class="btn btn-primary">
-      Hinzufügen
+    <button on:click={addGruppe} type="button" class="btn btn-success w-100 mt-5">
+      Gruppe speichern
     </button>
   </form>
   

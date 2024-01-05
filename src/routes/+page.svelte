@@ -23,36 +23,35 @@
     goto('/create', { replaceState: false });
   }
 
+  function navigateToPersonen() {
+    goto('/personen', {replaceState: false});
+  }
+
+  function navigateToZitate(gruppenId) {
+    goto('/' + gruppenId + '/zitate', {replaceState: false});
+  }
+
 </script>
 
-<h1>List of all Gruppen</h1>
-<button class="btn btn-primary" on:click={navigateToCreate}>Gruppe erstellen</button>
-<table class="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each data.gruppen as gruppe}
-      <tr>
-        <td>
-          <a href={"/" + gruppe._id + "/zitate"}>
-            {gruppe._id}
-          </a>
-        </td>
-        <td>
-          {gruppe.titel}
-        </td>
-        <td>
-          <button class="btn btn-danger"
+<div class="m-3">
+  <h1 class="display-4 mt-5 mb-3">Deine Gruppen</h1>
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-primary" on:click={navigateToCreate}>Gruppe erstellen</button>
+    <button class="btn btn-primary" on:click={navigateToPersonen}>Personen verwalten</button>
+  </div>
+</div>
+{#each data.gruppen as gruppe}
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="card m-3" on:click={()=>{navigateToZitate(gruppe._id);}}>
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <b>{gruppe.titel}</b>
+      <button class="btn btn-danger"
             on:click={() => {
               deleteGruppe(gruppe._id);
             }}>X</button
           >
-        </td>
-      </tr>
-    {/each}
-  </tbody>
-</table>
+    </div>
+  </div>
+{/each}
+
