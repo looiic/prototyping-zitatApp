@@ -286,6 +286,45 @@ async function createPerson(person) {
     }
     return null;
 }
+
+async function getPersonenByGruppenId(gruppenId) {
+    let personen = [];
+    try {
+        const collection = db.collection('gruppen');
+
+        const query = [
+            { '$match': { _id: new ObjectId(gruppenId) } },
+            { '$unwind': { path: '$personen' } },
+            { '$project': { personen: 1, _id: 0 } },
+            { '$addFields': { personid: { '$toObjectId': '$personen' } } },
+            {
+              '$lookup': {
+                from: 'personen',
+                localField: 'personid',
+                foreignField: '_id',
+                as: 'result'
+              }
+            },
+            { '$addFields': { person: { '$first': '$result' } } },
+            { '$addFields': { _id: '$person._id', name: '$person.name' } },
+            { '$project': { name: 1 } }
+          ];
+
+        // Get all objects that match the query
+        //personen = await collection.find(query).toArray();
+        personen = await collection.aggregate(query).toArray();
+        console.log(personen);
+        personen.forEach(person => {
+            person._id = person._id.toString(); // convert ObjectId to String
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+    return personen;
+}
+
+
+
 // export all functions so that they can be used in other files
 export default {
     getZitate,
@@ -301,5 +340,6 @@ export default {
     deleteGruppe,
     getPersonen,
     deletePerson,
-    createPerson
+    createPerson,
+    getPersonenByGruppenId
 }

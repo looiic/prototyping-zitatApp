@@ -1,4 +1,5 @@
 <script>
+    export let data;
     import axios from "axios";
     import { goto } from '$app/navigation';
   
@@ -48,10 +49,16 @@
       <p class="form-label">Personen</p>
       {#each gruppe.personen as person, index}
         <div class="input-group mb-2">
-          <input type="text" class="form-control" placeholder="Person Name" bind:value={person}>
+          <select class="form-select" bind:value={person}>
+            <option value="">Select a person...</option>
+            {#each data.personen as person}
+              <option value={person._id}>{person.name}</option>
+            {/each}
+          </select>
           <button type="button" class="btn btn-danger" on:click={() => removePerson(index)}>Remove</button>
         </div>
       {/each}
+
       <button type="button" class="btn btn-primary" on:click={addPerson}>Weitere Person</button>
     </div>
     <button on:click={addGruppe} type="button" class="btn btn-success w-100 mt-5">

@@ -31,7 +31,7 @@
 <a href="/"><h3>Zurück</h3></a>
 
 <div class="m-3">
-    <h1 class="display-4 mb-3">Zitate</h1>
+    <h1 class="display-4 mb-3">Zitate von {data.gruppe.titel}</h1>
     <button class="btn btn-success w-100" on:click={navigateToCreate}>Neues Zitat erfassen</button>
 </div>
 

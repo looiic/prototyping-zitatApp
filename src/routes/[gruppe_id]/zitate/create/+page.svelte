@@ -39,9 +39,13 @@
   }
 </script>
 
-<h1>Add an zitat</h1>
+<a href="./"><h3>Zurück</h3></a>
 
-<form>
+<div class="m-3">
+    <h1 class="display-4 mb-3">Zitat erfassen</h1>
+</div>
+
+<form class="m-3">
   <div class="mb-3">
     <label for="" class="form-label">Zitat</label>
     <input class="form-control" type="text" bind:value={zitat.zitat} />
@@ -71,7 +75,6 @@
     <input class="form-control" type="file" id="bild" accept="image/*" on:change={handleImageUpload} />
   </div>
   
-  <button on:click={addZitat} type="button" class="btn btn-primary">
-    Add Zitat
-  </button>
+  <button class="btn btn-success w-100 mt-4" on:click={addZitat}>Speichern</button>
+
 </form>
