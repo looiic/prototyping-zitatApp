@@ -32,19 +32,37 @@ async function getZitate() {
     return zitate;
 }
 
-async function getZitateByGruppeId(id) {
+async function getZitateByGruppeId(gruppenId) {
     let zitate = [];
     try {
         const collection = db.collection('zitate');
 
         // You can specify a query/filter here
         // See https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/query-document/
-        const query = { gruppe: id };
-
+        const query = [
+            {'$match': { 'gruppe': gruppenId } }, 
+            { '$addFields': { 'personId': { '$toObjectId': '$person' } } }, 
+            { '$lookup': {
+                    'from': 'personen',
+                    'localField': 'personId',
+                    'foreignField': '_id',
+                    'as': 'person'
+                } }, 
+            { '$project': {
+                    'person': {
+                        '$first': '$person'
+                    },
+                    'zitat': 1,
+                    'gruppe': 1,
+                    'beschreibung': 1,
+                    'datum': 1,
+                    'bild': 1
+                } } ]
         // Get all objects that match the query
-        zitate = await collection.find(query).toArray();
+        zitate = await collection.aggregate(query).toArray();
         zitate.forEach(zitat => {
             zitat._id = zitat._id.toString(); // convert ObjectId to String
+            zitat.person._id = zitat.person._id.toString();
         });
     } catch (error) {
     }
@@ -52,18 +70,38 @@ async function getZitateByGruppeId(id) {
 }
 
 // Get zitat by id
-async function getZitat(id) {
+async function getZitat(zitatId) {
     let zitat = null;
     try {
         const collection = db.collection('zitate');
-        const query = { _id: new ObjectId(id) }; // filter by id
-        zitat = await collection.findOne(query);
+        const query = [
+            {'$match': { '_id': new ObjectId(zitatId) } }, 
+            { '$addFields': { 'personId': { '$toObjectId': '$person' } } }, 
+            { '$lookup': {
+                    'from': 'personen',
+                    'localField': 'personId',
+                    'foreignField': '_id',
+                    'as': 'person'
+                } }, 
+            { '$project': {
+                    'person': {
+                        '$first': '$person'
+                    },
+                    'zitat': 1,
+                    'gruppe': 1,
+                    'beschreibung': 1,
+                    'datum': 1,
+                    'bild': 1
+                } } ]
+        zitat = await collection.aggregate(query).toArray();
+        zitat = zitat[0];
 
         if (!zitat) {
-            console.log("No zitat with id " + id);
+            console.log("No zitat with id " + zitatId);
             // TODO: errorhandling
         } else {
             zitat._id = zitat._id.toString(); // convert ObjectId to String
+            zitat.person._id = zitat.person._id.toString();
         }
     } catch (error) {
         // TODO: errorhandling
@@ -257,23 +295,23 @@ async function getPersonen() {
 
 // delete person by id
 async function deletePerson(id) {
-    
-        try {
-            const collection = db.collection('personen');
-            const query = { _id: new ObjectId(id) }; // filter by id
-            const result = await collection.deleteOne(query);
-    
-            if (result.deletedCount === 0) {
-                console.log("No object with id " + id)
-            }
-            else {
-                console.log("Object with id " + id + " has been successfully deleted.")
-                return id;
-            }
-        } catch (error) {
-            console.log(error.message);
+
+    try {
+        const collection = db.collection('personen');
+        const query = { _id: new ObjectId(id) }; // filter by id
+        const result = await collection.deleteOne(query);
+
+        if (result.deletedCount === 0) {
+            console.log("No object with id " + id)
         }
-        return null
+        else {
+            console.log("Object with id " + id + " has been successfully deleted.")
+            return id;
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+    return null
 }
 
 async function createPerson(person) {
@@ -281,7 +319,7 @@ async function createPerson(person) {
         const collection = db.collection('personen');
         const result = await collection.insertOne(person);
         return result.insertedId.toString(); // convert ObjectId to String
-    }  catch (error) {
+    } catch (error) {
         console.log(error.message);
     }
     return null;
@@ -298,22 +336,21 @@ async function getPersonenByGruppenId(gruppenId) {
             { '$project': { personen: 1, _id: 0 } },
             { '$addFields': { personid: { '$toObjectId': '$personen' } } },
             {
-              '$lookup': {
-                from: 'personen',
-                localField: 'personid',
-                foreignField: '_id',
-                as: 'result'
-              }
+                '$lookup': {
+                    from: 'personen',
+                    localField: 'personid',
+                    foreignField: '_id',
+                    as: 'result'
+                }
             },
             { '$addFields': { person: { '$first': '$result' } } },
             { '$addFields': { _id: '$person._id', name: '$person.name' } },
             { '$project': { name: 1 } }
-          ];
+        ];
 
         // Get all objects that match the query
         //personen = await collection.find(query).toArray();
         personen = await collection.aggregate(query).toArray();
-        console.log(personen);
         personen.forEach(person => {
             person._id = person._id.toString(); // convert ObjectId to String
         });

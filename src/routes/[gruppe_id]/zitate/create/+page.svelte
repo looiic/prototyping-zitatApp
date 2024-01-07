@@ -54,8 +54,8 @@
   <div class="mb-3">
     <label for="" class="form-label">Person</label>
     <select class="form-select" bind:value={zitat.person}>
-      {#each data.gruppe.personen as person}
-        <option value={person}>{person}</option>
+      {#each data.personen as person}
+        <option value={person._id}>{person.name}</option>
       {/each}
     </select>
   </div>

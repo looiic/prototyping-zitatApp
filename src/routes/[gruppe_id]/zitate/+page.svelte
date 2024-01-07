@@ -45,7 +45,7 @@
         <h3 class="display-6">"{zitat.zitat}"</h3>
       </div>
       <div class="text-end">
-        <i>- {zitat.person}</i>
+        <i>- {zitat.person.name}</i>
       </div>
     </div>
 </div>

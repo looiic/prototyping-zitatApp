@@ -16,7 +16,7 @@
     <div class="card-body">
       <h5 class="card-title">Zitat: {zitat.zitat}</h5>
       <p class="card-text"><strong>Beschreibung:</strong> {zitat.beschreibung}</p>
-      <p class="card-text"><strong>Person:</strong> {zitat.person}</p>
+      <p class="card-text"><strong>Person:</strong> {zitat.person.name}</p>
       <p class="card-text"><strong>Datum:</strong> {new Date(zitat.datum).toLocaleString()}</p>
 
       <a href="/edit/{zitat._id}" class="btn btn-primary">Edit</a>
