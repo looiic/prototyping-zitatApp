@@ -38,7 +38,7 @@
 </script>
 
 <div class="m-3">
-  <h1 class="display-4 mt-5 mb-3">Deine Gruppen</h1>
+  <h1 class="display-4 mb-3">Deine Gruppen</h1>
   <div class="d-flex justify-content-between">
     <button class="btn btn-primary" on:click={navigateToCreate}
       >Gruppe erstellen</button

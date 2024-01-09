@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
@@ -10,11 +10,27 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body data-sveltekit-preload-data="hover">
+		<div class="d-flex justify-content-end pt-3 pe-3">
+			<div class="form-check form-switch">
+				<i class="fa fa-sun-o" aria-hidden="true"></i>
+				<input class="form-check-input" type="checkbox" id="darkModeSwitch" checked>
+				<i class="fa fa-moon-o" aria-hidden="true"></i>
+			</div>
+		</div>
 		<div style="display: contents">%sveltekit.body%</div>
 
 		<!-- Bootstrap JS and dependencies -->
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script>
+			document.getElementById('darkModeSwitch').addEventListener('change', function(event){
+				if(event.currentTarget.checked){
+					document.documentElement.setAttribute('data-bs-theme', 'dark');
+				} else {
+					document.documentElement.setAttribute('data-bs-theme', 'light');
+				}
+			});
+		</script>
 	</body>
 </html>

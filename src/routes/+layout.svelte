@@ -32,6 +32,6 @@
 
 -->
 
-<div class="container mt-3">
+<div class="container">
   <slot />
 </div>
