@@ -21,6 +21,10 @@ jobs:
         with:
           node-version: '20.x'
 
+      - name: Create .env file
+        run: |
+          echo "DB_URI=${{ secrets.MY_SECRET }}" > .env
+
       - name: npm install, build, and test
         run: |
           npm install
