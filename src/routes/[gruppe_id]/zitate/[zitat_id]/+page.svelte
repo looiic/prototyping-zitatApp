@@ -1,8 +1,18 @@
 <script>
   import axios from 'axios';
+  import { goto } from '$app/navigation';
   export let data;
   
   let zitat = data.zitat;
+
+  async function deleteZitat() {
+    try {
+      await axios.delete('/api/zitate/' + zitat._id);
+      goto('./', { replaceState: false });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 </script>
 
@@ -19,7 +29,8 @@
       <p class="card-text"><strong>Person:</strong> {zitat.person.name}</p>
       <p class="card-text"><strong>Datum:</strong> {new Date(zitat.datum).toLocaleString()}</p>
 
-      <a href="/edit/{zitat._id}" class="btn btn-primary">Edit</a>
+      <a href="{zitat._id}/edit" class="btn btn-primary">Bearbeiten</a>
+      <button class="btn btn-danger" on:click={deleteZitat}>Zitat löschen</button>
     </div>
   </div>
 </div>
