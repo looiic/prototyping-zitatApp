@@ -360,6 +360,27 @@ async function getPersonenByGruppenId(gruppenId) {
     return personen;
 }
 
+async function isPersonInGruppe(personId) {
+    try {
+        const collection = db.collection('gruppen');
+        const query = {"personen": personId}; // filter by id
+        collection.countDocuments(query, function(err, count) {
+            if (err) throw err;
+        
+            if (count > 0) {
+              return true;
+            } else {
+              return false;
+            }
+
+        });
+
+    } catch (error) {
+        console.log(error.message);
+    }
+    return true;
+}
+
 
 
 // export all functions so that they can be used in other files
@@ -378,5 +399,6 @@ export default {
     getPersonen,
     deletePerson,
     createPerson,
-    getPersonenByGruppenId
+    getPersonenByGruppenId,
+    isPersonInGruppe
 }

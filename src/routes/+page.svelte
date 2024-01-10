@@ -27,12 +27,10 @@
   }
 
   function navigateToZitate(gruppenId) {
-    console.log("navigateToZitate");
     goto("/" + gruppenId + "/zitate", { replaceState: false });
   }
 
   function navigateToGruppe(gruppenId) {
-    console.log("navigateToGruppe");
     goto("/" + gruppenId, { replaceState: false });
   }
 </script>

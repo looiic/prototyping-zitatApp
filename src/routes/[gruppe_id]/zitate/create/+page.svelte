@@ -14,7 +14,6 @@
   };
 
   function addZitat() {
-    console.log(zitat);
     axios
       .post("/api/zitate", zitat)
       .then((response) => {
@@ -54,6 +53,7 @@
   <div class="mb-3">
     <label for="" class="form-label">Person</label>
     <select class="form-select" bind:value={zitat.person}>
+      <option value="" disabled>Person auswählen</option>
       {#each data.personen as person}
         <option value={person._id}>{person.name}</option>
       {/each}

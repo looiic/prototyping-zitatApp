@@ -1,23 +1,8 @@
 <script>
-  import axios from "axios";
-  import { invalidateAll } from "$app/navigation";
   import { goto } from '$app/navigation';
 
   export let data;
   
-  function deleteZitat(id) {
-    axios
-      .delete("/api/zitate/" + id)
-      .then((response) => {
-        alert("Zitat deleted");
-        console.log(response.data);
-        invalidateAll(); // reload data
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error);
-      });
-  }
 
   function navigateToCreate() {
     goto('./zitate/create', { replaceState: false });
