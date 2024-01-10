@@ -2,6 +2,7 @@
   import axios from "axios";
   import { invalidateAll } from "$app/navigation";
   export let data;
+  import DeleteButton from "$lib/components/deleteButton.svelte";
 
   let newPerson = {
     name: "",
@@ -55,12 +56,8 @@
   <div class="card m-3">
     <div class="card-body d-flex justify-content-between align-items-center">
       <b>{person.name}</b>
-      <button
-        class="btn btn-danger"
-        on:click={() => {
-          deletePerson(person._id);
-        }}>X</button
-      >
+      <DeleteButton on:delete={() => {deletePerson(person._id)}} text="X" />
+
     </div>
   </div>
 {/each}

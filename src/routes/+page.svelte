@@ -3,6 +3,7 @@
   import { goto } from "$app/navigation";
   import { invalidateAll } from "$app/navigation";
   import axios from "axios";
+  import DeleteButton from "$lib/components/deleteButton.svelte";
 
   function deleteGruppe(id) {
     axios
@@ -60,19 +61,22 @@
         <b>{gruppe.titel}</b>
       </div>
       <div>
-        <button class="btn btn-secondary"
+        <button
+          class="btn btn-secondary"
           on:click={(event) => {
             event.stopPropagation();
             navigateToGruppe(gruppe._id);
-          }}>
+          }}
+        >
           <i class="fa fa-cog" aria-hidden="true"></i>
         </button>
-        <button
-          class="btn btn-danger"
-          on:click={(event) => {
-            event.stopPropagation();
+
+        <DeleteButton
+          on:delete={() => {
             deleteGruppe(gruppe._id);
-          }}><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+          }}
+          text="X"
+        />
       </div>
     </div>
   </div>

@@ -1,6 +1,8 @@
 <script>
   import axios from 'axios';
   import { goto } from '$app/navigation';
+  import DeleteButton from '$lib/components/deleteButton.svelte';
+  
   export let data;
   
   let zitat = data.zitat;
@@ -30,7 +32,7 @@
       <p class="card-text"><strong>Datum:</strong> {new Date(zitat.datum).toLocaleString()}</p>
 
       <a href="{zitat._id}/edit" class="btn btn-primary">Bearbeiten</a>
-      <button class="btn btn-danger" on:click={deleteZitat}>Zitat löschen</button>
+      <DeleteButton on:delete={deleteZitat} text="Zitat löschen" />
     </div>
   </div>
 </div>
