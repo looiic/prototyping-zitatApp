@@ -7,10 +7,10 @@
 
     let showModal = false;
 
-    let modal;
 
     function confirmDelete() {
         showModal = false;
+        dispatch("delete");
     }
 
     function cancelDelete(event) {
