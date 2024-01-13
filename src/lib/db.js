@@ -40,15 +40,18 @@ async function getZitateByGruppeId(gruppenId) {
         // You can specify a query/filter here
         // See https://www.mongodb.com/docs/drivers/node/current/fundamentals/crud/query-document/
         const query = [
-            {'$match': { 'gruppe': gruppenId } }, 
-            { '$addFields': { 'personId': { '$toObjectId': '$person' } } }, 
-            { '$lookup': {
+            { '$match': { 'gruppe': gruppenId } },
+            { '$addFields': { 'personId': { '$toObjectId': '$person' } } },
+            {
+                '$lookup': {
                     'from': 'personen',
                     'localField': 'personId',
                     'foreignField': '_id',
                     'as': 'person'
-                } }, 
-            { '$project': {
+                }
+            },
+            {
+                '$project': {
                     'person': {
                         '$first': '$person'
                     },
@@ -57,7 +60,8 @@ async function getZitateByGruppeId(gruppenId) {
                     'beschreibung': 1,
                     'datum': 1,
                     'bild': 1
-                } } ]
+                }
+            }]
         // Get all objects that match the query
         zitate = await collection.aggregate(query).toArray();
         zitate.forEach(zitat => {
@@ -75,15 +79,18 @@ async function getZitat(zitatId) {
     try {
         const collection = db.collection('zitate');
         const query = [
-            {'$match': { '_id': new ObjectId(zitatId) } }, 
-            { '$addFields': { 'personId': { '$toObjectId': '$person' } } }, 
-            { '$lookup': {
+            { '$match': { '_id': new ObjectId(zitatId) } },
+            { '$addFields': { 'personId': { '$toObjectId': '$person' } } },
+            {
+                '$lookup': {
                     'from': 'personen',
                     'localField': 'personId',
                     'foreignField': '_id',
                     'as': 'person'
-                } }, 
-            { '$project': {
+                }
+            },
+            {
+                '$project': {
                     'person': {
                         '$first': '$person'
                     },
@@ -92,7 +99,8 @@ async function getZitat(zitatId) {
                     'beschreibung': 1,
                     'datum': 1,
                     'bild': 1
-                } } ]
+                }
+            }]
         zitat = await collection.aggregate(query).toArray();
         zitat = zitat[0];
 
@@ -363,17 +371,13 @@ async function getPersonenByGruppenId(gruppenId) {
 async function isPersonInGruppe(personId) {
     try {
         const collection = db.collection('gruppen');
-        const query = {"personen": personId}; // filter by id
-        collection.countDocuments(query, function(err, count) {
-            if (err) throw err;
-        
-            if (count > 0) {
-              return true;
-            } else {
-              return false;
-            }
-
-        });
+        const query = { personen: personId }; // filter by id
+        const count = await collection.countDocuments(query);
+        if (count > 0) {
+            return true;
+        } else {
+            return false;
+        }
 
     } catch (error) {
         console.log(error.message);

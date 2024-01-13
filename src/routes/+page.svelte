@@ -9,7 +9,6 @@
     axios
       .delete("/api/gruppen/" + id)
       .then((response) => {
-        alert("Gruppe deleted");
         console.log(response.data);
         invalidateAll(); // reload data
       })

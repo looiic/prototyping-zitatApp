@@ -26,7 +26,6 @@
     axios
       .delete("/api/personen/" + id)
       .then((response) => {
-        alert("Person deleted");
         console.log(response.data);
         invalidateAll(); // reload data
       })
